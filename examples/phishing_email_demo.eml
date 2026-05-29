@@ -1,0 +1,33 @@
+Return-Path: <security@secure-paypa1[.]example>
+Received: from mail.secure-paypa1[.]example (198.51.100.77)
+        by mx.victim-corp.example (203.0.113[.]88) with ESMTP id 4F2A9C;
+        Tue, 12 May 2026 09:41:17 +0200
+X-Originating-IP: [192.0.2.200]
+From: "PayPal Sicherheit" <security@secure-paypa1[.]example>
+Reply-To: support@login-verify[.]example
+To: kunde@victim-corp.example
+Subject: Ihr Konto wurde voruebergehend eingeschraenkt
+Message-ID: <20260512094117.4F2A9C@secure-paypa1[.]example>
+Date: Tue, 12 May 2026 09:41:17 +0200
+Content-Type: text/plain; charset="utf-8"
+
+Sehr geehrter Kunde,
+
+wir haben ungewoehnliche Aktivitaeten in Ihrem Konto festgestellt. Aus
+Sicherheitsgruenden wurde der Zugriff voruebergehend eingeschraenkt.
+
+Bitte bestaetigen Sie Ihre Identitaet innerhalb von 24 Stunden ueber den
+folgenden gesicherten Link:
+
+    hxxps://login-verify[.]example/account/confirm?ref=DE-88213
+
+Sollten Sie nicht reagieren, wird Ihr Konto dauerhaft gesperrt. Eine Kopie
+unserer aktuellen Sicherheitsrichtlinie haben wir als Anhang beigefuegt
+(sicherheit.pdf). Die Pruefsumme des Dokuments (SHA256) lautet:
+cb8a3db42aa7fb8b356bbe32aac07ced318428ed1f0366119e419cf155038e75
+
+Bei Rueckfragen erreichen Sie unser Sicherheitsteam jederzeit unter
+support@login-verify[.]example.
+
+Mit freundlichen Gruessen
+Ihr Sicherheitsteam

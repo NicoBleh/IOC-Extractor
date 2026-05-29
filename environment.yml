@@ -1,0 +1,11 @@
+name: ioc-extractor
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - pytest>=8.0
+  - black>=24.0
+  - ruff>=0.4
+  # requests wird nur für die optionale API-Anreicherung benötigt:
+  - requests>=2.31

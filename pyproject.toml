@@ -1,0 +1,36 @@
+[project]
+name = "ioc-extractor"
+version = "0.1.0"
+description = "Extraktion von Indicators of Compromise (IOCs) aus Textberichten"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.optional-dependencies]
+enrich = ["requests>=2.31"]
+dev = ["pytest>=8.0", "black>=24.0", "ruff>=0.4"]
+
+[project.scripts]
+ioc-extractor = "ioc_extractor.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["ioc_extractor"]
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+# E/F: pycodestyle + pyflakes, I: Import-Sortierung,
+# UP: pyupgrade, B: häufige Bug-Muster (flake8-bugbear)
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["."]

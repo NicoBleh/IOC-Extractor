@@ -1,0 +1,15 @@
+type,value,refanged_from
+ipv4,192.0.2.200,
+ipv4,198.51.100.77,
+ipv4,203.0.113.88,203.0.113[.]88
+domain,login-verify.example,login-verify[.]example
+domain,mail.secure-paypa1.example,mail.secure-paypa1[.]example
+domain,mx.victim-corp.example,
+domain,secure-paypa1.example,secure-paypa1[.]example
+domain,victim-corp.example,
+url,https://login-verify.example/account/confirm?ref=DE-88213,hxxps://login-verify[.]example/account/confirm?ref=DE-88213
+email,20260512094117.4F2A9C@secure-paypa1.example,20260512094117.4F2A9C@secure-paypa1[.]example
+email,kunde@victim-corp.example,
+email,security@secure-paypa1.example,security@secure-paypa1[.]example
+email,support@login-verify.example,support@login-verify[.]example
+sha256,cb8a3db42aa7fb8b356bbe32aac07ced318428ed1f0366119e419cf155038e75,

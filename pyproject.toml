@@ -1,7 +1,7 @@
 [project]
 name = "ioc-extractor"
 version = "0.1.0"
-description = "Extraktion von Indicators of Compromise (IOCs) aus Textberichten"
+description = "Extraction of Indicators of Compromise (IOCs) from text reports"
 requires-python = ">=3.12"
 dependencies = []
 
@@ -28,8 +28,8 @@ line-length = 88
 target-version = "py312"
 
 [tool.ruff.lint]
-# E/F: pycodestyle + pyflakes, I: Import-Sortierung,
-# UP: pyupgrade, B: häufige Bug-Muster (flake8-bugbear)
+# E/F: pycodestyle + pyflakes, I: import sorting,
+# UP: pyupgrade, B: common bug patterns (flake8-bugbear)
 select = ["E", "F", "I", "UP", "B"]
 
 [tool.pytest.ini_options]

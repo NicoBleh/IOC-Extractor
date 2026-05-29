@@ -1,4 +1,4 @@
-"""Kommandozeilen-Schnittstelle für den IOC-Extractor."""
+"""Command-line interface for the IOC extractor."""
 
 from __future__ import annotations
 
@@ -10,12 +10,12 @@ from pathlib import Path
 from ioc_extractor.extractor import IOCExtractor
 from ioc_extractor.models import IOC
 
-#: Anzeige-Reihenfolge und -Bezeichnungen der IOC-Typen.
+#: Display order and labels for IOC types.
 TYPE_LABELS: dict[str, str] = {
-    "ipv4": "IPv4-Adressen",
+    "ipv4": "IPv4 Addresses",
     "domain": "Domains",
     "url": "URLs",
-    "email": "E-Mail-Adressen",
+    "email": "Email Addresses",
     "md5": "Hashes (MD5)",
     "sha1": "Hashes (SHA1)",
     "sha256": "Hashes (SHA256)",
@@ -24,31 +24,31 @@ TYPE_LABELS: dict[str, str] = {
 
 
 def build_parser() -> argparse.ArgumentParser:
-    """Erstellt den Argument-Parser der Kommandozeile."""
+    """Creates the command-line argument parser."""
     parser = argparse.ArgumentParser(
         prog="ioc-extractor",
-        description="Extrahiert Indicators of Compromise aus einer Textdatei.",
+        description="Extracts Indicators of Compromise from a text file.",
     )
-    parser.add_argument("input", type=Path, help="Pfad zur Eingabe-Textdatei")
+    parser.add_argument("input", type=Path, help="Path to the input text file")
     parser.add_argument(
         "-o",
         "--output",
         type=Path,
         default=None,
-        help="Pfad für den CSV-Export (Standard: <input>_iocs.csv)",
+        help="Path for the CSV export (default: <input>_iocs.csv)",
     )
     return parser
 
 
 def print_report(grouped: dict[str, list[IOC]]) -> int:
-    """Gibt die gefundenen IOCs gruppiert auf der Konsole aus.
+    """Prints the found IOCs grouped to the console.
 
     Returns:
-        Die Gesamtzahl der eindeutigen IOCs.
+        The total number of unique IOCs.
     """
     total = 0
     print("=" * 60)
-    print("  EXTRAHIERTE INDICATORS OF COMPROMISE")
+    print("  EXTRACTED INDICATORS OF COMPROMISE")
     print("=" * 60)
     for ioc_type, label in TYPE_LABELS.items():
         items = grouped.get(ioc_type, [])
@@ -57,16 +57,16 @@ def print_report(grouped: dict[str, list[IOC]]) -> int:
         total += len(items)
         print(f"\n{label} ({len(items)})")
         for ioc in items:
-            note = f"   (refanged aus {ioc.original})" if ioc.was_defanged else ""
+            note = f"   (refanged from {ioc.original})" if ioc.was_defanged else ""
             print(f"  {ioc.value}{note}")
     print("\n" + "-" * 60)
-    print(f"  {total} eindeutige IOCs gefunden")
+    print(f"  {total} unique IOCs found")
     print("=" * 60)
     return total
 
 
 def write_csv(grouped: dict[str, list[IOC]], path: Path) -> None:
-    """Schreibt die gefundenen IOCs als CSV-Datei."""
+    """Writes the found IOCs to a CSV file."""
     with path.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.writer(handle)
         writer.writerow(["type", "value", "refanged_from"])
@@ -77,13 +77,13 @@ def write_csv(grouped: dict[str, list[IOC]], path: Path) -> None:
 
 
 def main(argv: list[str] | None = None) -> int:
-    """Einstiegspunkt der Kommandozeile."""
+    """Entry point for the command-line interface."""
     args = build_parser().parse_args(argv)
 
     try:
         text = args.input.read_text(encoding="utf-8")
     except OSError as exc:
-        print(f"Fehler beim Lesen der Datei: {exc}", file=sys.stderr)
+        print(f"Error reading file: {exc}", file=sys.stderr)
         return 1
 
     grouped = IOCExtractor().extract_grouped(text)
@@ -91,7 +91,7 @@ def main(argv: list[str] | None = None) -> int:
 
     output = args.output or args.input.with_name(f"{args.input.stem}_iocs.csv")
     write_csv(grouped, output)
-    print(f"\nExport gespeichert: {output}")
+    print(f"\nExport saved: {output}")
     return 0
 
 

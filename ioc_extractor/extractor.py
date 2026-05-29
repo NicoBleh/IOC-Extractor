@@ -1,4 +1,4 @@
-"""Kernlogik: Extraktion von Indicators of Compromise aus beliebigem Text."""
+"""Core logic: extraction of Indicators of Compromise from arbitrary text."""
 
 from __future__ import annotations
 
@@ -9,29 +9,29 @@ from ioc_extractor.patterns import FILE_EXTENSIONS, PATTERNS, refang
 
 
 class IOCExtractor:
-    """Findet Indicators of Compromise in einem Text.
+    """Finds Indicators of Compromise in a text.
 
-    Die Erkennung erfolgt rein musterbasiert über reguläre Ausdrücke.
-    Gefundene Treffer werden normalisiert (Refang), grob validiert und
-    über ein ``set`` automatisch dedupliziert.
+    Detection is purely pattern-based using regular expressions.
+    Matches are normalized (refanged), coarsely validated, and
+    automatically deduplicated via a ``set``.
     """
 
     def extract(self, text: str) -> set[IOC]:
-        """Extrahiert alle eindeutigen IOCs aus ``text``.
+        """Extracts all unique IOCs from ``text``.
 
         Args:
-            text: Der zu durchsuchende Freitext.
+            text: The free-form text to search.
 
         Returns:
-            Eine Menge eindeutiger :class:`IOC`-Objekte.
+            A set of unique :class:`IOC` objects.
         """
         found: set[IOC] = set()
         for ioc_type, pattern in PATTERNS.items():
             for match in pattern.finditer(text):
                 original = match.group(0)
                 if ioc_type == "url":
-                    # Nachgestellte Satzzeichen (z. B. Punkt am Satzende)
-                    # gehören nicht zur URL.
+                    # Trailing punctuation (e.g. period at end of sentence)
+                    # is not part of the URL.
                     original = original.rstrip(".,;:)]>\"'")
                 value = refang(original)
                 if not self._is_valid(ioc_type, value):
@@ -42,7 +42,7 @@ class IOCExtractor:
         return found
 
     def extract_grouped(self, text: str) -> dict[str, list[IOC]]:
-        """Wie :meth:`extract`, jedoch nach Typ gruppiert und je Gruppe sortiert."""
+        """Like :meth:`extract`, but grouped by type and sorted within each group."""
         grouped: dict[str, list[IOC]] = defaultdict(list)
         for ioc in self.extract(text):
             grouped[ioc.type].append(ioc)
@@ -52,7 +52,7 @@ class IOCExtractor:
 
     @staticmethod
     def _is_valid(ioc_type: str, value: str) -> bool:
-        """Filtert offensichtliche False Positives anhand einfacher Regeln."""
+        """Filters obvious false positives using simple rules."""
         if ioc_type == "ipv4":
             octets = value.split(".")
             return len(octets) == 4 and all(

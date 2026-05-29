@@ -1,4 +1,4 @@
-"""Datenmodell für extrahierte Indicators of Compromise (IOCs)."""
+"""Data model for extracted Indicators of Compromise (IOCs)."""
 
 from __future__ import annotations
 
@@ -7,17 +7,16 @@ from dataclasses import dataclass, field
 
 @dataclass(frozen=True)
 class IOC:
-    """Ein einzelner Indicator of Compromise.
+    """A single Indicator of Compromise.
 
     Attributes:
-        type: Kategorie des Indikators (z. B. ``"ipv4"`` oder ``"domain"``).
-        value: Normalisierter (refangter) Wert des Indikators.
-        original: Ursprüngliche Schreibweise im Quelltext. Dieses Feld wird
-            beim Vergleich und beim Hashing absichtlich ignoriert
-            (``compare=False``), damit zwei Vorkommen desselben Indikators –
-            unabhängig von einer evtl. „entschärften" Schreibweise – als
-            identisch gelten und über ein ``set`` automatisch dedupliziert
-            werden.
+        type: Category of the indicator (e.g. ``"ipv4"`` or ``"domain"``).
+        value: Normalized (refanged) value of the indicator.
+        original: Original representation in the source text. This field is
+            intentionally excluded from comparison and hashing
+            (``compare=False``), so that two occurrences of the same indicator —
+            regardless of any defanged representation — are considered
+            identical and automatically deduplicated via a ``set``.
     """
 
     type: str
@@ -26,5 +25,5 @@ class IOC:
 
     @property
     def was_defanged(self) -> bool:
-        """Gibt an, ob der Indikator im Quelltext entschärft dargestellt war."""
+        """Returns whether the indicator was defanged in the source text."""
         return bool(self.original) and self.original != self.value

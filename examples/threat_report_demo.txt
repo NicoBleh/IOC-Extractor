@@ -1,64 +1,60 @@
 ==============================================================
 THREAT INTELLIGENCE REPORT
-TLP:CLEAR  |  Bericht-ID: TIR-2026-0417
-Erstellt von: Sentinel CTI Team  |  Datum: 12.05.2026
+TLP:CLEAR  |  Report-ID: TIR-2026-0417
+Created by: Sentinel CTI Team  |  Date: 12.05.2026
 ==============================================================
 
-ZUSAMMENFASSUNG
----------------
-Zwischen dem 28. April und dem 9. Mai 2026 beobachtete unser Team
-eine gezielte Angriffskampagne gegen mehrere mittelständische
-Unternehmen im DACH-Raum. Der Erstzugriff erfolgte ueber eine
-Spear-Phishing-Welle, gefolgt von der Ausnutzung einer bekannten
-Schwachstelle (CVE-2024-3400) in nach aussen exponierten Gateways.
-Wir ordnen die Aktivitaet mit mittlerer Konfidenz der Gruppe
-"DUSK PELICAN" zu.
+SUMMARY
+-------
+Between April 28 and May 9, 2026, our team observed a targeted
+attack campaign against several mid-sized companies in the DACH
+region. Initial access was gained via a spear-phishing wave,
+followed by exploitation of a known vulnerability (CVE-2024-3400)
+in externally exposed gateways. We attribute the activity with
+medium confidence to the group "DUSK PELICAN".
 
-ERSTZUGRIFF
------------
-Die Angreifer versendeten gefaelschte Bewerbungs-E-Mails von der
-Adresse hr-team@mail-secure-login[.]example. Eine zweite, in der
-spaeteren Phase genutzte Absenderadresse war
-invoice@example-vendor.example. Die Mails enthielten ein
-manipuliertes PDF-Dokument (SHA256:
+INITIAL ACCESS
+--------------
+The attackers sent spoofed job-application emails from the address
+hr-team@mail-secure-login[.]example. A second sender address used
+in the later phase was invoice@example-vendor.example. The emails
+contained a manipulated PDF document (SHA256:
 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855),
-das beim Oeffnen einen Downloader nachlud.
+which downloaded a loader upon opening.
 
-Der Download erfolgte von der entschaerften URL
-hxxps://update-server[.]example/api/v2/beacon sowie als Fallback
-von hxxp://cdn-sync[.]example/files/loader.bin. Die zugehoerige
-Command-and-Control-Infrastruktur war zu diesem Zeitpunkt unter
-198.51.100.23 erreichbar; ein zweiter Knoten antwortete unter
-203.0.113[.]47 auf Port 8443.
+The download was fetched from the defanged URL
+hxxps://update-server[.]example/api/v2/beacon and as a fallback
+from hxxp://cdn-sync[.]example/files/loader.bin. The associated
+command-and-control infrastructure was reachable at 198.51.100.23
+at the time of observation; a second node responded at
+203.0.113[.]47 on port 8443.
 
-PERSISTENZ UND LATERAL MOVEMENT
--------------------------------
-Nach dem Einnisten legte die Malware den Registry-Key
-HKCU\Software\Microsoft\Windows\CurrentVersion\Run\SyncHelper an
-und schrieb ihre Nutzlast nach
-C:\Users\Public\Documents\synchelper.exe. Der zugehoerige
-MD5-Hash dieser Datei lautet 44d88612fea8a8f36de82e1278abb02f,
-der SHA1-Hash ist da39a3ee5e6b4b0d3255bfef95601890afd80709.
+PERSISTENCE AND LATERAL MOVEMENT
+---------------------------------
+After establishing persistence, the malware created the registry key
+HKCU\Software\Microsoft\Windows\CurrentVersion\Run\SyncHelper and
+wrote its payload to
+C:\Users\Public\Documents\synchelper.exe. The corresponding
+MD5 hash of this file is 44d88612fea8a8f36de82e1278abb02f,
+and the SHA1 hash is da39a3ee5e6b4b0d3255bfef95601890afd80709.
 
-Fuer die seitliche Bewegung im Netzwerk nutzten die Angreifer
-gestohlene Zugangsdaten und kommunizierten mit einem weiteren
-Server unter 192.0.2.150. In einem Fall wurde Datenexfiltration
-zur Domain cdn-sync[.]example beobachtet, aufgeloest auf die
-Adresse 198.51.100.99.
+For lateral movement within the network, the attackers used stolen
+credentials and communicated with an additional server at 192.0.2.150.
+In one instance, data exfiltration to the domain cdn-sync[.]example
+was observed, resolving to the address 198.51.100.99.
 
-WEITERE INDIKATOREN
--------------------
-Eine zusaetzliche Schaddatei wurde unter dem SHA256-Hash
-9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08
-identifiziert. Die Gruppe nutzte ausserdem die bereits in
-frueheren Kampagnen dokumentierte Schwachstelle CVE-2023-23397
-zur Rechteausweitung.
+ADDITIONAL INDICATORS
+---------------------
+An additional malicious file was identified under the SHA256 hash
+9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08.
+The group also exploited the vulnerability CVE-2023-23397,
+previously documented in earlier campaigns, for privilege escalation.
 
 ==============================================================
-ANHANG A: INDICATORS OF COMPROMISE
+APPENDIX A: INDICATORS OF COMPROMISE
 ==============================================================
 
-Netzwerk:
+Network:
   198.51.100.23
   203.0.113[.]47
   192.0.2.150
@@ -69,20 +65,20 @@ Netzwerk:
   hxxps://update-server[.]example/api/v2/beacon
   hxxp://cdn-sync[.]example/files/loader.bin
 
-E-Mail:
+Email:
   hr-team@mail-secure-login[.]example
   invoice@example-vendor.example
 
-Datei-Hashes:
+File Hashes:
   MD5    44d88612fea8a8f36de82e1278abb02f
   SHA1   da39a3ee5e6b4b0d3255bfef95601890afd80709
   SHA256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
   SHA256 9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08
 
-Schwachstellen:
+Vulnerabilities:
   CVE-2024-3400
   CVE-2023-23397
 
 ==============================================================
-TLP:CLEAR – freigegeben zur unbeschraenkten Weitergabe.
+TLP:CLEAR – approved for unrestricted distribution.
 ==============================================================

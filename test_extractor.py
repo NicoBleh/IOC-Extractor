@@ -1,4 +1,4 @@
-"""Unit-Tests für die IOC-Erkennung und -Normalisierung."""
+"""Unit tests for IOC detection and normalization."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from ioc_extractor.patterns import refang
 
 @pytest.fixture
 def extractor() -> IOCExtractor:
-    """Stellt eine frische Extractor-Instanz je Test bereit."""
+    """Provides a fresh extractor instance per test."""
     return IOCExtractor()
 
 
@@ -29,17 +29,17 @@ def test_refang(raw: str, expected: str) -> None:
 
 def test_extracts_each_type(extractor: IOCExtractor) -> None:
     text = (
-        "Kontakt a@b.example von 203.0.113[.]47 ueber "
-        "hxxp://bad[.]example/x, Hash 44d88612fea8a8f36de82e1278abb02f, "
-        "Luecke CVE-2024-3400."
+        "Contact a@b.example from 203.0.113[.]47 via "
+        "hxxp://bad[.]example/x, hash 44d88612fea8a8f36de82e1278abb02f, "
+        "vulnerability CVE-2024-3400."
     )
     types = {ioc.type for ioc in extractor.extract(text)}
     assert {"email", "ipv4", "url", "md5", "cve"} <= types
 
 
 def test_deduplicates_across_forms(extractor: IOCExtractor) -> None:
-    # Gleiche IP einmal entschärft, einmal normal -> ein eindeutiger Treffer.
-    text = "203.0.113[.]47 und 203.0.113.47"
+    # Same IP once defanged, once normal -> one unique match.
+    text = "203.0.113[.]47 and 203.0.113.47"
     ips = [ioc for ioc in extractor.extract(text) if ioc.type == "ipv4"]
     assert len(ips) == 1
     assert ips[0].value == "203.0.113.47"

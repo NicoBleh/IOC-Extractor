@@ -1,17 +1,17 @@
 # IOC-Extractor
 
-Ein kommandozeilenbasiertes Python-Werkzeug, das **Indicators of Compromise
-(IOCs)** automatisch aus Textberichten extrahiert: IPv4-Adressen, Domains,
-URLs, E-Mail-Adressen, Datei-Hashes (MD5/SHA1/SHA256) und CVE-Kennungen.
+A command-line Python tool that automatically extracts **Indicators of Compromise
+(IOCs)** from text reports: IPv4 addresses, domains, URLs, email addresses,
+file hashes (MD5/SHA1/SHA256), and CVE identifiers.
 
-Absichtlich „entschärfte" Schreibweisen (z. B. `hxxp://`, `domain[.]com`)
-werden erkannt und automatisch zurückgewandelt (Refang). Mehrfach genannte
-Indikatoren werden dedupliziert; das Ergebnis erscheint gruppiert auf der
-Konsole und wird zusätzlich als CSV exportiert.
+Intentionally "defanged" representations (e.g. `hxxp://`, `domain[.]com`)
+are detected and automatically restored (refanged). Duplicate indicators
+are deduplicated; the results are printed grouped to the console and also
+exported as CSV.
 
 ## Installation
 
-Mit conda (Python 3.12):
+With conda (Python 3.12):
 
 ```bash
 conda env create -f environment.yml
@@ -19,16 +19,16 @@ conda activate ioc-extractor
 pip install -e .
 ```
 
-## Verwendung
+## Usage
 
 ```bash
 python -m ioc_extractor examples/threat_report_demo.txt
 ```
 
-Optional ein eigenes Ziel für den CSV-Export angeben:
+Optionally specify a custom path for the CSV export:
 
 ```bash
-python -m ioc_extractor bericht.txt -o ergebnisse.csv
+python -m ioc_extractor report.txt -o results.csv
 ```
 
 ## Tests
@@ -37,32 +37,32 @@ python -m ioc_extractor bericht.txt -o ergebnisse.csv
 pytest
 ```
 
-## Code-Stil
+## Code Style
 
-Formatierung mit Black, statische Prüfung mit Ruff:
+Formatting with Black, static analysis with Ruff:
 
 ```bash
 black .
 ruff check .
 ```
 
-## Projektstruktur
+## Project Structure
 
 ```
 ioc-extractor/
 ├── ioc_extractor/
-│   ├── models.py      # IOC-Dataclass (Datenmodell)
-│   ├── patterns.py    # Regex-Muster + Refang-Normalisierung
-│   ├── extractor.py   # IOCExtractor (Kernlogik)
-│   └── cli.py         # Kommandozeile + Ausgabe/Export
-├── tests/             # pytest-Tests
-├── examples/          # Beispiel-Bericht
-├── environment.yml    # conda-Umgebung (Python 3.12)
-└── pyproject.toml      # Paket-, Black-, Ruff- und pytest-Konfiguration
+│   ├── models.py      # IOC dataclass (data model)
+│   ├── patterns.py    # Regex patterns + refang normalization
+│   ├── extractor.py   # IOCExtractor (core logic)
+│   └── cli.py         # Command-line interface + output/export
+├── tests/             # pytest tests
+├── examples/          # Sample reports
+├── environment.yml    # conda environment (Python 3.12)
+└── pyproject.toml     # Package, Black, Ruff, and pytest configuration
 ```
 
-## Hinweis
+## Note
 
-Alle in den Beispieldaten verwendeten IP-Adressen liegen in den laut
-RFC 5737 für Dokumentation reservierten Bereichen, alle Domains enden auf
-`.example`. Es werden keine realen oder erreichbaren Indikatoren verwendet.
+All IP addresses used in the example data fall within the ranges reserved for
+documentation purposes per RFC 5737, and all domains end in `.example`.
+No real or reachable indicators are used.

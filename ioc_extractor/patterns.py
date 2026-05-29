@@ -1,20 +1,20 @@
-"""Reguläre Ausdrücke und Normalisierung für die IOC-Erkennung."""
+"""Regular expressions and normalization for IOC detection."""
 
 from __future__ import annotations
 
 import re
 
-# Wiederverwendbares Teilmuster: ein Punkt – normal oder „entschärft" als [.]
+# Reusable sub-pattern: a dot — literal or defanged as [.]
 _DOT = r"(?:\[\.\]|\.)"
 
-#: Bekannte Datei-Endungen, die fälschlich wie Domains aussehen können.
+#: Known file extensions that can be mistaken for domains.
 FILE_EXTENSIONS: frozenset[str] = frozenset(
     {"exe", "bin", "dll", "doc", "docx", "pdf", "txt", "zip", "rar", "ps1", "js"}
 )
 
-#: Kompilierte Muster je IOC-Typ.
-#: Wichtig: Die Hash-Muster sind über ``\b`` längengenau, sodass sich ein
-#: SHA256-Wert nicht versehentlich als MD5-Teilstring matchen lässt.
+#: Compiled patterns per IOC type.
+#: Important: hash patterns use ``\b`` for exact length matching so that a
+#: SHA256 value is not accidentally matched as an MD5 substring.
 PATTERNS: dict[str, re.Pattern[str]] = {
     "url": re.compile(r"\b(?:hxxps?|https?)(?:\[://\]|://)[^\s'\"<>]+", re.IGNORECASE),
     "email": re.compile(
@@ -30,10 +30,10 @@ PATTERNS: dict[str, re.Pattern[str]] = {
 
 
 def refang(text: str) -> str:
-    """Wandelt eine „entschärfte" Schreibweise in die normale Form zurück.
+    """Converts a defanged representation back to its normal form.
 
-    Beispiele:
-        ``hxxps://`` -> ``https://`` und ``domain[.]com`` -> ``domain.com``.
+    Examples:
+        ``hxxps://`` -> ``https://`` and ``domain[.]com`` -> ``domain.com``.
     """
     return (
         text.replace("hxxps", "https")

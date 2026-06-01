@@ -70,7 +70,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--enrich",
         action="store_true",
         default=False,
-        help="Enrich IPv4 IOCs with AbuseIPDB reputation data (requires ABUSEIPDB_API_KEY).",
+        help="Enrich extracted IPv4 IOCs via AbuseIPDB (requires ABUSEIPDB_API_KEY).",
     )
     return parser
 

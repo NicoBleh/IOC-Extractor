@@ -9,7 +9,12 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from ioc_extractor import IOCExtractor
-from ioc_extractor.enricher import Enricher, MissingApiKeyError, Reputation, get_api_key, supports
+from ioc_extractor.enricher import (
+    Enricher,
+    MissingApiKeyError,
+    get_api_key,
+    supports,
+)
 from ioc_extractor.patterns import refang
 from ioc_extractor.reader import read_text
 

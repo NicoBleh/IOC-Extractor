@@ -7,8 +7,11 @@ import csv
 import os
 import sys
 from pathlib import Path
+from typing import TYPE_CHECKING
 
-from ioc_extractor.enricher import Enricher, Reputation, get_api_key, supports
+if TYPE_CHECKING:
+    from ioc_extractor.enricher import Reputation
+
 from ioc_extractor.extractor import IOCExtractor
 from ioc_extractor.models import IOC
 from ioc_extractor.reader import read_text
@@ -147,6 +150,8 @@ def main(argv: list[str] | None = None) -> int:
 
     enrichment: dict[tuple[str, str], Reputation] | None = None
     if args.enrich:
+        from ioc_extractor.enricher import Enricher, get_api_key, supports
+
         try:
             api_key = get_api_key()
         except OSError as exc:
@@ -164,7 +169,10 @@ def main(argv: list[str] | None = None) -> int:
                 if rep:
                     enrichment[(ioc.type, ioc.value)] = rep
             except Exception as exc:  # noqa: BLE001
-                print(f"  Warning: enrichment failed for {ioc.value}: {exc}", file=sys.stderr)
+                print(
+                    f"  Warning: enrichment failed for {ioc.value}: {exc}",
+                    file=sys.stderr,
+                )
 
     print_report(grouped, enrichment)
 

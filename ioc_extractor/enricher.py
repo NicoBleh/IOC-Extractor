@@ -40,7 +40,7 @@ def get_api_key() -> str:
     """Returns the AbuseIPDB API key from the environment.
 
     Raises:
-        OSError: If ``ABUSEIPDB_API_KEY`` is not set.
+        MissingApiKeyError: If ``ABUSEIPDB_API_KEY`` is not set.
     """
     key = os.environ.get(ENV_KEY, "").strip()
     if not key:

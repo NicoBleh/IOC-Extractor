@@ -8,16 +8,16 @@ CobaltStrike beacons
 C02d50d0eb3974818091b8dd91a8bbb8cdefd94d4568a4aea8e1dcdd8869f738 
 
 Network IOCs 
-cdn[.]phototagx[.]com 
-www[.]roomako[.]com 
-lgaircon[.]xyz 
-hxxps[://]www[.]roomako[.]com/jquery-3[.]3[.]1[.]min[.]js  
-hxxps[://]lgaircon[.]xyz/owa/OPWiaTU-ZEbuwIAKGPHoQAP006-PTsjBGKQUxZorq2 
-hxxps[://]cdn[.]lgaircon[.]xyz/jquery-3[.]3[.]1[.]min[.]js 
-hxxps[://]cdn[.]phototagx[.]com/ 
+cdn[.]phototagx[.]example
+www[.]roomako[.]example
+lgaircon[.]example
+hxxps[://]www[.]roomako[.]example/jquery-3[.]3[.]1[.]min[.]js
+hxxps[://]lgaircon[.]example/owa/OPWiaTU-ZEbuwIAKGPHoQAP006-PTsjBGKQUxZorq2
+hxxps[://]cdn[.]lgaircon[.]example/jquery-3[.]3[.]1[.]min[.]js
+hxxps[://]cdn[.]phototagx[.]example/
 
-192[.]210[.]239[.]172 
-hxxp[://]192[.]210[.]239[.]172:3219/LVLWPH[.]exe 
-hxxp[://]192[.]210[.]239[.]172:3219/MCUCAT[.]exe 
-hxxp[://]192[.]210[.]239[.]172:3219/TJPLYT[.]exe 
-hxxp[://]192[.]210[.]239[.]172:3219/z44[.]exe 
+198[.]51[.]100[.]172
+hxxp[://]198[.]51[.]100[.]172:3219/LVLWPH[.]exe
+hxxp[://]198[.]51[.]100[.]172:3219/MCUCAT[.]exe
+hxxp[://]198[.]51[.]100[.]172:3219/TJPLYT[.]exe
+hxxp[://]198[.]51[.]100[.]172:3219/z44[.]exe

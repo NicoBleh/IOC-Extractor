@@ -85,6 +85,8 @@ ruff check .
 ```
 ioc-extractor/
 ├── ioc_extractor/
+│   ├── __init__.py
+│   ├── __main__.py    # Enables `python -m ioc_extractor`
 │   ├── models.py      # IOC dataclass
 │   ├── patterns.py    # Regex patterns + refang normalization
 │   ├── extractor.py   # IOCExtractor (core logic)

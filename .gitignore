@@ -22,3 +22,9 @@ env/
 
 # OS
 .DS_Store
+
+# Environment / secrets
+.env
+
+# Private files
+private/

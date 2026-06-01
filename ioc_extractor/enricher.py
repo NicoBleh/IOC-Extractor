@@ -19,6 +19,10 @@ _RATE_DELAY: float = 0.5
 ENV_KEY = "ABUSEIPDB_API_KEY"
 
 
+class MissingApiKeyError(RuntimeError):
+    """Raised when the AbuseIPDB API key is not configured."""
+
+
 @dataclass
 class Reputation:
     """Reputation result for a single IOC from AbuseIPDB.
@@ -40,7 +44,7 @@ def get_api_key() -> str:
     """
     key = os.environ.get(ENV_KEY, "").strip()
     if not key:
-        raise OSError(
+        raise MissingApiKeyError(
             f"AbuseIPDB API key not found. Set the {ENV_KEY} environment variable."
         )
     return key

@@ -150,11 +150,16 @@ def main(argv: list[str] | None = None) -> int:
 
     enrichment: dict[tuple[str, str], Reputation] | None = None
     if args.enrich:
-        from ioc_extractor.enricher import Enricher, get_api_key, supports
+        from ioc_extractor.enricher import (
+            Enricher,
+            MissingApiKeyError,
+            get_api_key,
+            supports,
+        )
 
         try:
             api_key = get_api_key()
-        except OSError as exc:
+        except MissingApiKeyError as exc:
             print(f"Error: {exc}", file=sys.stderr)
             return 1
 

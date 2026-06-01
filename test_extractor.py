@@ -9,7 +9,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from ioc_extractor import IOCExtractor
-from ioc_extractor.enricher import Enricher, Reputation, get_api_key, supports
+from ioc_extractor.enricher import Enricher, MissingApiKeyError, Reputation, get_api_key, supports
 from ioc_extractor.patterns import refang
 from ioc_extractor.reader import read_text
 
@@ -126,7 +126,7 @@ def test_read_eml_base64_body(tmp_path: Path) -> None:
     body_b64 = base64.b64encode(b"Contact evil@malware.example for ransom.\n").decode()
     raw = (
         "From: x@x.example\n"
-        "Content-Type: text/plain; charset=\"utf-8\"\n"
+        'Content-Type: text/plain; charset="utf-8"\n'
         "Content-Transfer-Encoding: base64\n"
         "\n"
         f"{body_b64}\n"
@@ -150,7 +150,7 @@ def test_supports() -> None:
 
 def test_get_api_key_missing(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.delenv("ABUSEIPDB_API_KEY", raising=False)
-    with pytest.raises(OSError, match="ABUSEIPDB_API_KEY"):
+    with pytest.raises(MissingApiKeyError, match="ABUSEIPDB_API_KEY"):
         get_api_key()
 
 
@@ -164,8 +164,10 @@ def test_enrich_malicious() -> None:
     mock_resp.json.return_value = {"data": {"abuseConfidenceScore": 95}}
     mock_resp.raise_for_status.return_value = None
 
-    with patch("ioc_extractor.enricher.requests.get", return_value=mock_resp), \
-         patch("ioc_extractor.enricher.time.sleep"):
+    with (
+        patch("requests.get", return_value=mock_resp),
+        patch("ioc_extractor.enricher.time.sleep"),
+    ):
         rep = Enricher("fakekey").enrich("198.51.100.1", "ipv4")
 
     assert rep is not None
@@ -178,8 +180,10 @@ def test_enrich_clean() -> None:
     mock_resp.json.return_value = {"data": {"abuseConfidenceScore": 0}}
     mock_resp.raise_for_status.return_value = None
 
-    with patch("ioc_extractor.enricher.requests.get", return_value=mock_resp), \
-         patch("ioc_extractor.enricher.time.sleep"):
+    with (
+        patch("requests.get", return_value=mock_resp),
+        patch("ioc_extractor.enricher.time.sleep"),
+    ):
         rep = Enricher("fakekey").enrich("203.0.113.1", "ipv4")
 
     assert rep is not None

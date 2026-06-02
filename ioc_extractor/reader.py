@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import email
+import email.message
 import email.policy
 from pathlib import Path
 

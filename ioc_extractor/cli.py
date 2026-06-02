@@ -119,7 +119,7 @@ def write_csv(
 
 def main(argv: list[str] | None = None) -> int:
     """Entry point for the command-line interface."""
-  
+
     load_dotenv()
     args = build_parser().parse_args(argv)
 

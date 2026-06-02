@@ -4,10 +4,11 @@ from __future__ import annotations
 
 import argparse
 import csv
-import os
 import sys
 from pathlib import Path
 from typing import TYPE_CHECKING
+
+from dotenv import load_dotenv
 
 if TYPE_CHECKING:
     from ioc_extractor.enricher import Reputation
@@ -15,25 +16,6 @@ if TYPE_CHECKING:
 from ioc_extractor.extractor import IOCExtractor
 from ioc_extractor.models import IOC
 from ioc_extractor.reader import read_text
-
-
-def _load_dotenv(path: Path = Path(".env")) -> None:
-    """Loads key=value pairs from *path* into the environment.
-
-    Already-set variables are not overwritten, so explicit ``export`` always
-    takes precedence. Lines starting with ``#`` and blank lines are ignored.
-    """
-    if not path.is_file():
-        return
-    for line in path.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if not line or line.startswith("#") or "=" not in line:
-            continue
-        key, _, value = line.partition("=")
-        key = key.strip()
-        value = value.strip().strip("\"'")
-        os.environ.setdefault(key, value)
-
 
 #: Display order and labels for IOC types.
 TYPE_LABELS: dict[str, str] = {
@@ -137,7 +119,8 @@ def write_csv(
 
 def main(argv: list[str] | None = None) -> int:
     """Entry point for the command-line interface."""
-    _load_dotenv()
+  
+    load_dotenv()
     args = build_parser().parse_args(argv)
 
     try:

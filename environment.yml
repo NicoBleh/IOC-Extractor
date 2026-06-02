@@ -8,3 +8,6 @@ dependencies:
   - black>=24.0
   - ruff>=0.4
   - requests>=2.31
+  - python-dotenv>=1.0
+  - pip:
+      - -e .[dev,enrich]

@@ -30,19 +30,24 @@ def _read_eml(path: Path) -> str:
         parts.append(f"{key}: {value}")
 
     if msg.is_multipart():
-        for part in msg.walk():
-            ct = part.get_content_type()
-            if ct in ("text/plain", "text/html"):
-                payload = part.get_payload(decode=True)
-                if payload:
-                    assert isinstance(payload, bytes)
-                    charset = part.get_content_charset() or "utf-8"
-                    parts.append(payload.decode(charset, errors="replace"))
+        text_types = ("text/plain", "text/html")
+        sources = (part for part in msg.walk() if part.get_content_type() in text_types)
     else:
-        payload = msg.get_payload(decode=True)
-        if payload:
-            assert isinstance(payload, bytes)
-            charset = msg.get_content_charset() or "utf-8"
-            parts.append(payload.decode(charset, errors="replace"))
+        sources = (msg,)
+
+    for part in sources:
+        decoded = _decode_part(part)
+        if decoded is not None:
+            parts.append(decoded)
 
     return "\n".join(parts)
+
+
+def _decode_part(part: email.message.Message) -> str | None:
+    """Decodes a MIME part's payload to text, or returns ``None`` if empty."""
+    payload = part.get_payload(decode=True)
+    if not payload:
+        return None
+    assert isinstance(payload, bytes)
+    charset = part.get_content_charset() or "utf-8"
+    return payload.decode(charset, errors="replace")

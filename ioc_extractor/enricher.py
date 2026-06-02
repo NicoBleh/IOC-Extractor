@@ -9,6 +9,7 @@ from __future__ import annotations
 import os
 import time
 from dataclasses import dataclass
+import requests
 
 #: IOC types supported by AbuseIPDB.
 SUPPORTED_TYPES: frozenset[str] = frozenset({"ipv4"})
@@ -73,7 +74,6 @@ class Enricher:
         """
         if not supports(ioc_type):
             return None
-        import requests  # optional dependency; imported lazily
 
         resp = requests.get(
             "https://api.abuseipdb.com/api/v2/check",

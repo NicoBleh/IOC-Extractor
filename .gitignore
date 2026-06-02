@@ -28,3 +28,6 @@ env/
 
 # Private files
 private/
+
+# Editor files
+.vscode/

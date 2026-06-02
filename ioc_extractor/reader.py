@@ -35,11 +35,13 @@ def _read_eml(path: Path) -> str:
             if ct in ("text/plain", "text/html"):
                 payload = part.get_payload(decode=True)
                 if payload:
+                    assert isinstance(payload, bytes)
                     charset = part.get_content_charset() or "utf-8"
                     parts.append(payload.decode(charset, errors="replace"))
     else:
         payload = msg.get_payload(decode=True)
         if payload:
+            assert isinstance(payload, bytes)
             charset = msg.get_content_charset() or "utf-8"
             parts.append(payload.decode(charset, errors="replace"))
 
